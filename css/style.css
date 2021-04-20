@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap')
+
+*{
+	box-sizing: border-box;
+}
+
+body{
+	font-family: 'Dancing Script', cursive;
+	font-size: 16px;
+	color: #fff;
+}
+
+ul{
+	list-style: none;
+}
+
+h1, h2, h3, h4, h5, ul, li{
+	margin: 0;
+	padding: 0;
+}
+
+
+#principal {
+	background: url(../img/bg-pokemon.png);
+	height: 8em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	border-bottom: 3px solid #000;
+}
+
+#principal h1{
+	color: #fff;
+	text-shadow: 5px 5px #000;
+}
+
+/*----------------fim header ------------------------------*/
+
+#buscas{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.column{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	flex-basis: 70%;
+	background: #c81731;
+	margin-top: 5px;
+	
+}
+
+form {
+	display: inline-block;
+}
+
+label{
+	display: inline-block;
+	width: 100%;
+	margin: 10px 4%;
+	
+}
+
+input[type=text]{
+	width: 90%;
+	height: 25px;
+	margin: 0 4% 10px 4% ;
+}
+
+input[type=submit]{
+	width: 50%;
+	margin: 0 25% 30px 25%;
+}
+
+#instrucao{
+	display: flex;
+	width: 30%;
+	min-width: 200px;
+	align-items: center;
+	justify-content: center;
+}
+
+#instrucao-box{
+	margin: 10px auto;
+	width: 90%;
+	text-align: center;
+	background: #5176B5;
+	color: #fff;
+	padding: 5px;
+	border: 2px solid white;
+	border-radius: 5px;
+}
+
+/*-------------------resultados-------------*/
+
+#resultados{
+	display: flex;
+	justify-content: center;
+}
+
+#card{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.caracteristica{
+	text-transform: capitalize;
+}
+
+#resultados .column #card h2{
+	margin-top: 10px;
+	width: 100%;
+	text-align: center;
+}
+
+#poke-foto{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 130px;
+	height: 130px;
+	border:1px solid;
+	margin: 10px;
+}
+
+#poke-foto img{
+	width: 100%;
+}
+
+#poke-informacao{
+	display: flex;
+	width: 80%;
+	margin: 10px;
+}
+
+#poke-informacao ul{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;
+	margin: 10px;
+}
+
+
+li{
+	width: 49%;
+	min-width: 230px;
+}
+
+/*---------------footer-----------*/
+
+footer{
+	background: url(../img/bg-pokemon-footer.png);
+	height: 8em;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	width: 100%;
+	border-top: 3px solid #000;
+	margin-top: 10px;
+}
+
+footer h3{
+	padding: 15px;
+}
+
+footer a{
+	text-decoration: none;
+	color: white;
+	text-shadow: 2px 2px #000;
+}
+
+footer a:hover{
+	color: #000;
+	text-shadow: 2px 2px white;
+}
