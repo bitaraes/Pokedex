@@ -2,6 +2,7 @@
 
 *{
 	box-sizing: border-box;
+	overflow-x: hidden;
 }
 
 body{
@@ -19,13 +20,14 @@ h1, h2, h3, h4, h5, ul, li{
 	padding: 0;
 }
 
-
+/*---------------------------------------------Home-------------------------------------------*/
 #principal {
 	background: url(../img/bg-pokemon.png);
 	height: 8em;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: space-around;
+	align-items: flex-start;
+	flex-wrap: wrap;
 	width: 100%;
 	border-bottom: 3px solid #000;
 }
@@ -178,4 +180,51 @@ footer a{
 footer a:hover{
 	color: #000;
 	text-shadow: 2px 2px white;
+}
+
+/*----------------------------------------Lista Completa-------------------------------------*/
+
+.column{
+	border: 1px solid grey;
+}
+
+#pokemon-listagem{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.list-item{
+	width: 24%;
+	height: 250px;
+	min-width: 200px;
+	border:1px solid;
+	text-align: center;
+}
+
+.list-img{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 130px;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.list-img img{
+	width: 60%;
+}
+
+.list-numero{
+	width: 100%;
+	margin: 10px 0; 
+}
+
+.list-nome{
+	width: 100%;
+	margin: 10px 0;
+}
+
+.list-tipo{
+	width: 100%;
 }
