@@ -28,34 +28,51 @@ header{
 	background: #000 url(../img/bg-pokemon.png);
 	height: 8em;
 	display: flex;
-	justify-content: space-around;
-	align-items: flex-start;
+	justify-content: center;
+	align-items: center;
 	flex-wrap: wrap;
 	width: 100%;
 	border-bottom: 3px solid #000;
 }
 
-#principal h1{
-	color: #fff;
-	text-shadow: 5px 5px #000;
-}
+/*----------------NAVEGAÇÃO ------------------------------*/
 
-/*----------------fim header ------------------------------*/
-
-#buscas{
+nav{
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: center;
+	flex-wrap: wrap;
+	min-height: 30px;
 }
 
 .column{
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	flex-wrap: wrap;
 	flex-basis: 70%;
 	background: #c81731;
 	margin-top: 5px;
-	
+}
+
+nav .column a{
+	text-decoration: none;
+	color: #fff;
+	font-size: 1.2em;
+	padding: 15px;
+}
+
+nav .column a:hover{
+	background: #fff;
+	color: #c81731;
+}
+
+/*--------------------Conteudo---------------------------*/
+
+
+#buscas{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 form {
@@ -131,6 +148,7 @@ input[type=submit]{
 	height: 130px;
 	border:1px solid;
 	margin: 10px;
+	background: rgba(0, 0, 0, 0.5)
 }
 
 #poke-foto img{
@@ -187,10 +205,6 @@ footer a:hover{
 
 /*----------------------------------------Lista Completa-------------------------------------*/
 
-.column{
-	border: 1px solid grey;
-}
-
 #pokemon-listagem{
 	display: flex;
 	justify-content: center;
@@ -201,8 +215,8 @@ footer a:hover{
 	width: 24%;
 	height: 250px;
 	min-width: 200px;
-	border:1px solid;
 	text-align: center;
+	margin: 2px;
 }
 
 .list-img{
@@ -216,6 +230,7 @@ footer a:hover{
 
 .list-img img{
 	width: 60%;
+	margin: 5px 0;
 }
 
 .list-numero{
@@ -232,11 +247,14 @@ footer a:hover{
 	width: 100%;
 }
 
+/*---------------------Páginas------------------------------*/
+
 #paginacao {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	color: #000;
-	padding: 5px;
+	padding: 5px 0;
 }
 
 .pag-num{
@@ -256,4 +274,13 @@ footer a:hover{
 	border-radius: 50%;
 	color: #000;
 	text-decoration: none;
+}
+
+.dot{
+	align-self: flex-end;
+	background: #fff;
+	margin: 5px ;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
 }
