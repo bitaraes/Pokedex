@@ -1,84 +1,61 @@
-var paginaAtual = 1
-criarLista(paginaAtual)
+let paginaAtual = 1
+criarLista()
 
-function buscarListagem(urlPrincipal, listagem) {
+function buscarListagem(urlPrincipal) {
 	return fetch(urlPrincipal);
 };
 
 //Faz a requisição da lista e cria um objeto com os dados dos pokemons
-async function criarLista(paginaAtual){	
-	var urlPagina = Number((paginaAtual-1)*20)
-	var urlPrincipal = `https://pokeapi.co/api/v2/pokemon?offset=${urlPagina}&limit=20`;
+async function criarLista(){
+	//Calcula o número da página que irá compor a URL principal
+	const urlPagina = Number((paginaAtual-1)*20);
+	const urlPrincipal = `https://pokeapi.co/api/v2/pokemon?offset=${urlPagina}&limit=20`;
 	try{
-		var url = await buscarListagem(urlPrincipal);
+		//Requisita a Lista com os pokemons
+		const url = await buscarListagem(urlPrincipal);
+		//Converte o response em um json
 		var pokemonList = await url.json();
+		//Faz uma requisição para cada pokemon da lista
 		for (i in pokemonList.results){
-			url = await fetch(pokemonList.results[i].url);
-			url = await url.json();
-			if (url.types[1] != null) {
-				var pokemon = {	Nome: url.name, 
-							Numero: url.id, 
-							Tipo: url.types[0].type.name,
-							Tipo2: url.types[1].type.name,  
-							Img: url.sprites.front_default};
-			} else {
-				var pokemon = {	
-					Nome: url.name, 
-					Numero: url.id, 
-					Tipo: url.types[0].type.name,
-					Tipo2: "",  
-					Img: url.sprites.front_default
-				};
-			}
-
-			pokemonList[i] = pokemon;
+			//Faz a requisição de um pokemon específico.
+			const pokemonReq = await fetch(pokemonList.results[i].url);
+			//Converte o response em JSON
+			const results = await pokemonReq.json();
+			const pokemon = {nome: results.name, 
+							numero: results.id, 
+							tipo: results.types[0].type.name,
+							tipo2: !results.types[1] ? "":results.types[1].type.name,  
+							img: results.sprites.front_default};
+			//Inclui os objetos criados à lista
+			pokemonList.results[i] = pokemon;
 		}
 	} catch {
-		alert("Dados não encontrados");
+		console.log("Dados não encontrados");
 	}
-	criarHtml(pokemonList, paginaAtual);
+	//Chama a função que irá gerar o html
+	criarHtml(pokemonList);
 }
 
-//Insere os itens html na lista
-function criarHtml(pokemonList, paginaAtual){
-	var listItens = document.querySelectorAll("div[class=list-item]");
-	listItens = Array.from(listItens);
-	for (i in listItens){
-		var dados = `<div class="list-nome caracteristica"><h2>${pokemonList[i].Nome}</h2></div>
-					<div class="list-img"><img src="${pokemonList[i].Img}"</div>
-					<div class="list-numero caracteristica">Número: ${pokemonList[i].Numero}</div>
-					<div class="list-tipo caracteristica">Tipos: ${pokemonList[i].Tipo} ${pokemonList[i].Tipo2}</div>`
-		listItens[i].innerHTML = dados;
-	}
-	if (paginaAtual > 2) {
-		if (paginaAtual > 53) {
-			document.querySelector("#paginacao").innerHTML = `
-			<span class="pag-num"><a href="">52</a></span>
-			<span class="pag-num"><a href="">53</a></span>
-			<span class="pag-num"><a href="">54</a></span>
-			<span class="pag-num"><a href="">55</a></span>
-			<span class="pag-num"><a href="">56</a></span>`
-		} else {
-			var paginas = { Penultima:paginaAtual-2,
-							Ultima:paginaAtual-1,
-							Atual:paginaAtual,
-							Sucessora: paginaAtual+1,
-							Proxima: paginaAtual+2
-						}
-			document.querySelector("#paginacao").innerHTML = `
-			<span class="pag-num"><a href="">1</a></span>
-			<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-			<span class="pag-num"><a href="">${paginas.Penultima}</a></span>
-			<span class="pag-num"><a href="">${paginas.Ultima}</a></span>
-			<span class="pag-num"><a href="">${paginas.Atual}</a></span>
-			<span class="pag-num"><a href="">${paginas.Sucessora}</a></span>
-			<span class="pag-num"><a href="">${paginas.Proxima}</a></span>
-			<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-			<span class="pag-num"><a href="">56</a></span>
-			`
-		}
+//Gera os itens html
+function criarHtml(pokemonList){
+	//seleciona o elemento pai
+	let elementSelect = document.querySelector("section[id=pokemon-listagem] > div");
+	//limpa o elemento pai para que os novos elementos sejam criados
+	elementSelect.innerHTML="";
+	//Percorre a lista e cria um elemento para cada pokemon
+	pokemonList.results.forEach(atual => {
+		const dados = `
+			<div class="list-item">
+			<div class="list-nome caracteristica"><h2>${atual.nome}</h2></div>
+			<div class="list-img"><img src="${atual.img}"></div>
+			<div class="list-numero caracteristica">Número: ${atual.numero}</div>
+			<div class="list-tipo caracteristica">Tipos: ${atual.tipo} ${atual.tipo2}</div>
+			</div>`;
+		elementSelect.innerHTML+=dados;
+	});
 
-	} else {
+	//Cria os links de mudança de página caso a pagina seja menor que 5. 
+	if(paginaAtual < 5) {
 		document.querySelector("#paginacao").innerHTML = `
 		<span class="pag-num"><a href="">1</a></span>
 		<span class="pag-num"><a href="">2</a></span>
@@ -86,27 +63,58 @@ function criarHtml(pokemonList, paginaAtual){
 		<span class="pag-num"><a href="">4</a></span>
 		<span class="pag-num"><a href="">5</a></span>
 		<span class="dot"></span><span class="dot"></span><span class="dot"></span>
-		<span class="pag-num"><a href="">56</a></span>
-		`
+		<span class="pag-num"><a href="">56</a></span>`;
+		capturaPagina();
+		return;
 	}
-	mudaPagina()
+
+	//Cria os links de mudança de página caso a pagina seja maior que 53. 
+	if (paginaAtual > 53) {
+		document.querySelector("#paginacao").innerHTML = `
+			<span class="pag-num"><a href="">1</a></span>
+			<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+			<span class="pag-num"><a href="">52</a></span>
+			<span class="pag-num"><a href="">53</a></span>
+			<span class="pag-num"><a href="">54</a></span>
+			<span class="pag-num"><a href="">55</a></span>
+			<span class="pag-num"><a href="">56</a></span>`;
+			capturaPagina();
+		return ;
+	}
+
+	//Calcula o valor dos links de acordo com o número da página atual. 
+	const paginas = { penultima:paginaAtual-2,
+					ultima:paginaAtual-1,
+					atual:paginaAtual,
+					sucessora: paginaAtual+1,
+					proxima: paginaAtual+2
+				};
+	document.querySelector("#paginacao").innerHTML = `
+	<span class="pag-num"><a href="">1</a></span>
+	<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+	<span class="pag-num"><a href="">${paginas.penultima}</a></span>
+	<span class="pag-num"><a href="">${paginas.ultima}</a></span>
+	<span class="pag-num"><a href="">${paginas.atual}</a></span>
+	<span class="pag-num"><a href="">${paginas.sucessora}</a></span>
+	<span class="pag-num"><a href="">${paginas.proxima}</a></span>
+	<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+	<span class="pag-num"><a href="">56</a></span>`;
+
+	//Chama a função que captura o valor da pagina atual.
+	capturaPagina();
 }
 
-//Faz a transição entre os itens da lista
-function mudaPagina(){
-	//Selecionar os números das páginas
-	numeroPagina = document.querySelectorAll("#paginacao a");
-	numeroPagina = Array.from(numeroPagina)
-	//Caputurar o clique de mudança de página
-	for (i=0; i < numeroPagina.length; i++){
-		console.log(numeroPagina[i])
-		numeroPagina[i].addEventListener("click", function(evento){
+//Captura o valor do link clicado e atribui à pagina Atual
+function capturaPagina(){
+	//Seleciona os elementos com os números das páginas
+	const elementList = document.querySelectorAll("#paginacao a");
+	const numeroPagina = Array.from(elementList);
+	//Capturar o clique de mudança de página
+	elementList.forEach(atual => {
+		atual.addEventListener("click", evento => {
 			evento.preventDefault();
-			var paginaAtual = parseInt(this.text);
-			criarLista(paginaAtual);
-		})
-	}
+			paginaAtual = parseInt(evento.target.text);
+			criarLista();
+		});
+	});
 }
-
-
-
