@@ -40,8 +40,6 @@ async function criarLista(){
 function criarHtml(pokemonList){
 	//seleciona o elemento pai
 	let elementSelect = document.querySelector("section[id=pokemon-listagem] > div");
-	//limpa o elemento pai para que os novos elementos sejam criados
-	elementSelect.innerHTML="";
 	//Percorre a lista e cria um elemento para cada pokemon
 	pokemonList.results.forEach(atual => {
 		const dados = `
@@ -113,6 +111,7 @@ function capturaPagina(){
 	elementList.forEach(atual => {
 		atual.addEventListener("click", evento => {
 			evento.preventDefault();
+			document.querySelector("section[id=pokemon-listagem] > div").innerHTML="";
 			paginaAtual = parseInt(evento.target.text);
 			criarLista();
 		});
